@@ -21,6 +21,7 @@ DetectionModel.
 import logging
 import tensorflow as tf
 
+from tensorflow.python.client import timeline
 from object_detection import eval_util
 from object_detection.core import box_list
 from object_detection.core import box_list_ops
@@ -29,6 +30,7 @@ from object_detection.core import standard_fields as fields
 from object_detection.utils import ops
 
 slim = tf.contrib.slim
+run_metadata = tf.RunMetadata()
 
 EVAL_METRICS_FN_DICT = {
     'pascal_voc_metrics': eval_util.evaluate_detection_results_pascal_voc
@@ -158,6 +160,12 @@ def evaluate(create_input_dict_fn, create_model_fn, eval_config, categories,
                        if k != 'original_image'}
     try:
       (result_dict, _) = sess.run([tensor_dict, update_op])
+			#		options=tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE),
+			#		run_metadata=run_metadata)
+     # trace_file = open('timeline.ctf.json', 'w')
+     # trace = timeline.Timeline(step_stats=run_metadata.step_stats)
+     # trace_file.write(trace.generate_chrome_trace_format())
+
       counters['success'] += 1
     except tf.errors.InvalidArgumentError:
       logging.info('Skipping image')

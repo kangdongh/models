@@ -496,8 +496,9 @@ def repeated_checkpoint_run(tensor_dict,
   number_of_evaluations = 0
   while True:
     start = time.time()
-    logging.info('Starting evaluation at ' + time.strftime('%Y-%m-%d-%H:%M:%S',
-                                                           time.gmtime()))
+    #logging.info('Starting evaluation at ' + time.strftime('%Y-%m-%d-%H:%M:%S',
+    print 'Starting evaluation at ' + time.strftime('%Y-%m-%d-%H:%M:%S',
+                                                           time.gmtime())
     model_path = tf.train.latest_checkpoint(checkpoint_dirs[0])
     if not model_path:
       logging.info('No model found in %s. Will try again in %d seconds',
@@ -507,12 +508,14 @@ def repeated_checkpoint_run(tensor_dict,
                    'seconds', eval_interval_secs)
     else:
       last_evaluated_model_path = model_path
+      print 'Starting evaluation at ' + time.strftime('%Y-%m-%d-%H:%M:%S', time.gmtime())
       run_checkpoint_once(tensor_dict, update_op, summary_dir,
                           aggregated_result_processor,
                           batch_processor, checkpoint_dirs,
                           variables_to_restore, restore_fn, num_batches, master,
                           save_graph, save_graph_dir, metric_names_to_values,
                           keys_to_exclude_from_results)
+      print 'end evaluation at ' + time.strftime('%Y-%m-%d-%H:%M:%S', time.gmtime())
     number_of_evaluations += 1
 
     if (max_number_of_evaluations and
