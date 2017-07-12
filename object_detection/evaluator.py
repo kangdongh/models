@@ -30,7 +30,7 @@ from object_detection.core import standard_fields as fields
 from object_detection.utils import ops
 
 slim = tf.contrib.slim
-run_metadata = tf.RunMetadata()
+#run_metadata = tf.RunMetadata()
 
 EVAL_METRICS_FN_DICT = {
     'pascal_voc_metrics': eval_util.evaluate_detection_results_pascal_voc
@@ -203,12 +203,10 @@ def evaluate(create_input_dict_fn, create_model_fn, eval_config, categories,
       tensor_dict=tensor_dict,
       update_op=tf.no_op(),
       summary_dir=eval_dir,
-      aggregated_result_processor=_process_aggregated_results,
-      batch_processor=_process_batch,
+      aggregated_result_processor=_process_aggregated_results,#      batch_processor=_process_batch,
       checkpoint_dirs=[checkpoint_dir],
       variables_to_restore=None,
-      restore_fn=_restore_latest_checkpoint,
-      num_batches=eval_config.num_examples,
+      restore_fn=_restore_latest_checkpoint,#      num_batches=eval_config.num_examples,
       eval_interval_secs=eval_config.eval_interval_secs,
       max_number_of_evaluations=(
           1 if eval_config.ignore_groundtruth else
